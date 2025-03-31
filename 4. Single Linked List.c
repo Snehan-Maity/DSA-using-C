@@ -168,7 +168,7 @@ void deletePosition(int x){
 	}
 }
 int main(){
-    int item,pos,choice;
+    int item,pos,choice,x;
     while(1){
         printf("\n0. Exit\n1. Add at beginning\n2. Add at end\n3. Delete at beginning\n4. Delete at end\n5. Display\n6. Reverse\n7. Search\n8. Maximum\n9. Minimum\n10. Count Nodes\n11. Insert by Position\n12. Delete by position\nEnter your choice : ");
         scanf("%d",&choice);
@@ -200,7 +200,14 @@ int main(){
             case 7:
                 printf("Enter an item to search: ");
                 scanf("%d",&item);
-                break;;
+                x=search(item);
+                if(x==1){
+        		printf("%d is present in the Linked List",item);
+		}
+		else{
+			printf("%d is not present in the Linked List",item);
+		}
+                break;
             case 8:
                 printf("The maximum value is %d\n",maximum());
                 break;
@@ -226,4 +233,3 @@ int main(){
         }
     }
 }
-
