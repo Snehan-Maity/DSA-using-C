@@ -17,10 +17,11 @@ void enQueue(int item){
     }
     rear = (rear+1)%MAX;
     arr[rear] = item;
+    return;
 }
 int deQueue(){
     if(isEmpty()){
-        printf("Queue is empty");
+        printf("Queue is empty. Unable to delete");
         return INT_MIN;
     }
     front=(front+1)%MAX;
@@ -28,7 +29,7 @@ int deQueue(){
 }
 int peek(){
     if(isEmpty()){
-        printf("Queue is empty");
+        printf("Queue is empty. Unable to peek");
         return INT_MIN;
     }
     return arr[(front+1)%MAX];
@@ -45,7 +46,7 @@ void display(){
     return;
 }
 int main(){
-    int item,choice;
+    int item,choice,x;
     while(1){
         printf("\n0.Exit\n1.Insert\n2.Delete\n3.Peek\n4.Display\nEnter your choice : ");
         scanf("%d",&choice);
@@ -54,9 +55,13 @@ int main(){
             scanf("%d",&item);
             enQueue(item);
             break;
-            case 2 : printf("Popped item : %d",deQueue());
+            case 2 : x=deQueue();
+					 if(x!=INT_MIN)
+						printf("Popped item : %d",x);
             break;
-            case 3 : printf("Peeked item : %d",peek());
+            case 3 : x=peek();
+					 if(x!=INT_MIN)
+					 	printf("Peeked item : %d",x);
             break;
             case 4 : display();
             break;
