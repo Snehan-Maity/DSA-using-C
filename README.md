@@ -5,16 +5,16 @@
 03. Stack.c 
 04. Queue.c
 05. CircularQueue.c 
-06. Single Linked List.c 
-07. Double Linked List.c 
-08. Circular Linked List.c 
-09. Stack using LL.c 
-10. Queue using LL.c 
-11. Priority Queue using LL.c 
-12. Infix to Prefix (Number).c 
-13. Infix to Prefix.c 
-14. Postfix Evaluation (Numbers).c 
-15. Tower of Hanoi.c 
+06. SingleLinkedList.c 
+07. DoubleLinkedList.c 
+08. CircularLinkedList.c 
+09. StackusingLL.c 
+10. QueueusingLL.c 
+11. PriorityQueueUsingLL.c 
+12. InfixtoPrefix(Number).c 
+13. InfixtoPrefix.c 
+14. PostfixEvaluation(Numbers).c 
+15. TowerofHanoi.c 
 16. BubbleSort.c 
 17. InsertionSort.c 
 18. SelectionSort.c 
@@ -24,6 +24,7 @@
 22. Pyramid.c 
 23. Tree.c 
 24. BinarySearchTree.c 
-25. AVL TREE.c
-26. BFS (BreadthFirstSearch).c
-27. DFS (DepthFirstSearch).c
+25. AVL_TREE.c
+26. Threaded_BST.c
+27. BFS(BreadthFirstSearch).c
+28. DFS(DepthFirstSearch).c
