@@ -1,0 +1,919 @@
+//Circular Queue
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+#define MAX 5
+int arr[MAX];
+int front=0,rear=0;
+int isFull(){
+    return((rear+1)%MAX == front);
+}
+int isEmpty(){
+    return(front==rear);
+}
+void enQueue(int item){
+    if(isFull()) {
+        printf("Queue is full, can't insert %d\n", item);
+        return;
+    }
+    rear = (rear+1)%MAX;
+    arr[rear] = item;
+}
+int deQueue(){
+    if(isEmpty()){
+        printf("Queue is empty");
+        return INT_MIN;
+    }
+    front=(front+1)%MAX;
+    return arr[front];
+}
+int peek(){
+    if(isEmpty()){
+        printf("Queue is empty");
+        return INT_MIN;
+    }
+    return arr[(front+1)%MAX];
+}
+void display(){
+    if(isEmpty()){
+        printf("Queue is empty");
+        return;
+    }
+    int i;
+    for(i=(front+1)%MAX; i!=rear; i=(i+1)%MAX){
+        printf("%3d",arr[i]);
+    }
+    printf("%3d\n",arr[rear]);
+    return;
+}
+int main(){
+    int item,choice;
+    while(1){
+        printf("\n0.Exit\n1.Insert\n2.Delete\n3.Peek\n4.Display\nEnter your choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 1 : printf("Enter item to insert : ");
+            scanf("%d",&item);
+            enQueue(item);
+            break;
+            case 2 : printf("Popped item : %d",deQueue());
+            break;
+            case 3 : printf("Top item : %d",peek());
+            break;
+            case 4 : display();
+            break;
+            case 0 : exit(0);
+            break;
+            default : printf("Invalid choice");
+        }
+    }
+}
+
+
+
+
+
+//Stack Using Linked List
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+	int data;
+	struct Node* next;
+};
+struct Node* top=NULL;
+struct Node* createNode(int item){
+	struct Node* ptr=(struct Node *)malloc(sizeof(struct Node));
+	ptr->data=item;
+	ptr->next=NULL;
+	return ptr;
+}
+int isEmpty(){
+	return(top==NULL);
+}
+void push(int item){
+	struct Node* curr=createNode(item);
+	if(top==NULL){
+		top=curr;
+		curr->next=NULL;
+		return;
+	}
+	curr->next=top;
+	top=curr;
+	return;
+}
+int peek(){
+	if(isEmpty()){
+		printf("Stack is Empty");
+		return INT_MAX;
+	}
+	return top->data;
+}
+void pop(){
+	if(isEmpty()){
+		printf("Stack Empty");
+		return;
+	}
+	struct Node* temp=top;
+	top=top->next;
+	free(temp);
+	return;
+}
+void display(){
+	struct Node* temp=top;
+	if(temp==NULL){
+		printf("Stcak Empty");
+		return;
+	}
+	do{
+		printf("%3d",temp->data);
+		temp=temp->next;
+	}
+	while(temp!=NULL);
+}
+int main(){
+	int choice,n,p;
+	while(1){
+		printf("\n0. To Exit\n1. To Push\n2. To Peek\n3.To Pop\n4.To Display\n");
+		printf("Enter your choice : ");
+		scanf("%d",&choice);
+		switch(choice){
+			case 0: exit(0);
+					break;
+			case 1: printf("Enter the number to push : ");
+					scanf("%d",&n);
+					push(n);
+					break;
+			case 2: p=peek();
+					if(p!=INT_MAX){
+						printf("%d",p);
+					}
+					break;
+			case 3: pop();
+					break;
+			case 4: display();
+					break;
+			default: printf("Invalid Choice !!");
+		}
+	}
+}
+
+
+
+
+
+//Queue using Linked List
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+	int data;
+	struct Node* next;
+};
+struct Node* createNode(int item){
+	struct Node* ptr= (struct Node*) malloc(sizeof(struct Node));
+	ptr->data=item;
+	ptr->next=NULL;
+	return ptr;
+}
+struct Node* front=NULL;
+struct Node* rear=NULL;
+int isEmpty(){
+	return (front==NULL);
+}
+void enQueue(int item){
+	struct Node* curr=createNode(item);
+	if(rear==NULL){
+		rear=curr;
+		front=curr;
+		return;
+	}
+	rear->next=curr;
+	rear=curr;
+	return;
+}
+int peek(){
+	if(isEmpty()){
+		printf("Empty Queue");
+		return INT_MAX;
+	}
+	return (front->data);
+}
+void deQueue(){
+	struct Node* temp=front;
+	if(isEmpty()){
+		printf("Empty Queue");
+		return;
+	}
+	front=front->next;
+	if(front==NULL){
+		rear=NULL;
+		free(temp);
+		return;
+	}
+}
+void display(){
+	struct Node* temp=front;
+	if(temp==NULL){
+		printf("Queue Empty");
+		return;
+	}
+	do{
+		printf("%3d",temp->data);
+		temp=temp->next;
+	}
+	while(temp!=NULL);
+}
+int main(){
+	int choice,n,p;
+	while(1){
+		printf("\n0. To Exit\n1. To Insert Element\n2. To Peek\n3. To Delete\n4. To display\n");
+		printf("Enter your choice : ");
+		scanf("%d",&choice);
+		switch(choice){
+			case 0: exit(0);
+					break;
+			case 1: printf("Enter the number to insert : ");
+					scanf("%d",&n);
+					enQueue(n);
+					break;
+			case 2: p=peek();
+					if(p!=INT_MAX){
+						printf("%d",p);
+					}
+					break;
+			case 3: deQueue();
+					break;
+			case 4: display();
+					break;
+			default: printf("Invalid Choice !!");
+		}
+	}
+}
+
+
+
+
+
+//Priority Queue using Linked List
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+	int data;
+	int priority;
+	struct Node* next;
+};
+struct Node* createNode(int d,int p){
+	struct Node* ptr=(struct Node*)malloc(sizeof(struct Node));
+	ptr->data=d;
+	ptr->priority=p;
+	ptr->next=NULL;
+	return ptr;
+}
+struct Node* front=NULL;
+int isEmpty(){
+	return(front==NULL);
+}
+void enQueue(int d,int p){
+	struct Node* curr=createNode(d,p);
+	if(front==NULL||p<front->priority){
+		curr->next=front;
+		front=curr;
+		return;
+	}
+	struct Node* temp=front;
+	while(temp->next!=NULL && temp->next->priority<=p){
+		temp=temp->next;
+	}
+	curr->next=temp->next;
+	temp->next=curr;
+	return;
+}
+int peek(){
+	if(!isEmpty()){
+		return front->data;
+	}
+	return INT_MAX;
+}
+void deQueue(){
+	if(!isEmpty()){
+		struct Node* temp=front;
+		front=front->next;
+		free(temp);
+		return;
+	}
+	else{
+		printf("Empty Queue. Unable to delete");
+		return;
+	}
+}
+void display(){
+	struct Node* temp=front;
+	if(temp==NULL){
+		printf("Empty Queue");
+		return;
+	}
+	while(temp!=NULL){
+		printf("%d\t",temp->data);
+		temp=temp->next;
+	}
+	return;
+}
+int main(){
+	int choice,n,p;
+	while(1){
+		printf("\n0. To Exit\n1. To Insert Element\n2. To Peek\n3. To Delete\n4. To display\n");
+		printf("Enter your choice : ");
+		scanf("%d",&choice);
+		switch(choice){
+			case 0: exit(0);
+					break;
+			case 1: printf("Enter the number to insert : ");
+					scanf("%d",&n);
+					printf("Enter its priority : ");
+					scanf("%d",&p);
+					enQueue(n,p);
+					break;
+			case 2: p=peek();
+					if(p!=INT_MAX){
+						printf("%d",p);
+					}
+					break;
+			case 3: deQueue();
+					break;
+			case 4: display();
+					break;
+			default: printf("Invalid Choice !!");
+		}
+	}
+}
+
+
+
+
+
+//Single Linked List
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node *head = NULL;
+struct Node *createNode(int data){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void addBeg(int data){
+    struct Node* newNode = createNode(data);
+    if(head == NULL){
+        head = newNode;
+        return;
+    }
+    newNode->next = head;
+    head = newNode;
+}
+void addEnd(int data){
+    struct Node * newNode = createNode(data);
+    if(head == NULL){
+        head = newNode;
+        return;
+    }
+    struct Node* temp = head;
+    while(temp->next!=NULL){
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+void delBeg(){
+    if(head == NULL)return;
+    struct Node* temp = head;
+    head = head->next;
+    free(temp);
+}
+void delEnd(){
+    if(head == NULL)return;
+    if(head->next == NULL){
+        free(head);
+        head = NULL;
+        return;
+    }
+    struct Node* temp = head;
+    while(temp->next->next!=NULL){
+        temp = temp->next;
+    }
+    free(temp->next);
+    temp->next = NULL;
+    return;
+}
+void display(){
+    struct Node* temp = head;
+    while(temp!=NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+void reverseList(){
+    if(head == NULL)return;
+    struct Node *curr = head, *prev = NULL, *next;
+    while(curr != NULL){
+        next = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = next;
+    }
+    head = prev;
+}
+int search(int data){
+    if(head == NULL)return 0;
+    struct Node* temp = head;
+    while(temp!=NULL){
+        if(temp->data == data){
+            return 1;
+        }
+        temp = temp->next;
+    }
+    return 0;
+}
+int maximum(){
+    if(head == NULL)return INT_MIN;
+    struct Node* temp = head;
+    int max = head->data;
+    while(temp!=NULL){
+        if(temp->data > max)max = temp->data;
+        temp = temp->next;
+    }
+    return max;
+}
+int minimum(){
+    if(head == NULL)return INT_MAX;
+    struct Node* temp = head;
+    int min = head->data;
+    while(temp!=NULL){
+        if(temp->data < min)min = temp->data;
+        temp = temp->next;
+    }
+    return min;
+}
+int count(){
+    if(head == NULL)return 0;
+    int count = 0;
+    struct Node* temp = head;
+    while(temp!=NULL){
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+void addPos(int item,int x){
+	struct Node *curr = createNode(item);
+	struct Node* temp=head,*prev;
+	if(x<1 || x>count()+1){
+		printf("Position not found");
+		return;
+	}
+	int i=1;
+	while(temp!=NULL && i<x){
+		prev=temp;
+		temp=temp->next;
+		i++;
+	}
+	if(temp==head){
+		curr->next=temp; 
+		head=curr;
+		return;
+	}
+    prev->next = curr;
+    curr->next = temp;
+    return;
+}
+void deletePosition(int x){
+	struct Node* temp=head,*prev;
+	if(x<1||x>count()){
+		printf("Position not found");
+		return;
+	}
+	int i=1;
+	while(temp!=NULL && i<x){
+		prev=temp;
+		temp=temp->next;
+		i++;
+	}
+	if(temp==head){
+		head=head->next; 
+		free(temp);
+		printf("\nItem deleted successfully");
+		return;
+	}
+	else if(temp->next==NULL){
+		prev->next=NULL;
+		free(temp);
+		printf("\nItem deleted successfully");
+		return;
+	}
+	else{
+		prev->next=temp->next; 
+		free(temp); 
+		printf("\nItem deleted successfully");
+		return;
+	}
+}
+int main(){
+    int item,pos,choice;
+    while(1){
+        printf("\n0. Exit\n1. Add at beginning\n2. Add at end\n3. Delete at beginning\n4. Delete at end\n5. Display\n6. Reverse\n7. Search\n8. Maximum\n9. Minimum\n10. Count Nodes\n11. Insert by Position\n12. Delete by position\nEnter your choice : ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 0:
+                exit(0);
+            case 1:
+                printf("Enter an item to add at beginning: ");
+                scanf("%d",&item);
+                addBeg(item);
+                break;
+            case 2:
+                printf("Enter an item to add at end: ");
+                scanf("%d",&item);
+                addEnd(item);
+                break;
+            case 3:
+                delBeg();
+                break;
+            case 4:
+                delEnd();
+                break;
+            case 5:
+                display();
+                break;
+            case 6:
+                reverseList();
+                break;
+            case 7:
+                printf("Enter an item to search: ");
+                scanf("%d",&item);
+                break;;
+            case 8:
+                printf("The maximum value is %d\n",maximum());
+                break;
+            case 9:
+                printf("The minimum value is %d\n",minimum());
+                break;
+            case 10:
+                printf("The count of nodes is %d\n",count());
+                break;
+            case 11:
+               	printf("Enter the item to add : ");
+                scanf("%d",&item);
+                printf("Enter its position : ");
+                scanf("%d",&pos);
+                addPos(item,pos);
+                break;
+            case 12:
+            	printf("Enter the position where you want to delete element : ");
+            	scanf("%d",&item);
+            	deletePosition(item);
+            	break;
+            default: printf("Invalid Choice !!");
+        }
+    }
+}
+
+
+
+
+
+
+//Double Linked List
+//Double Linked List
+#include<stdio.h>
+#include<stdlib.h>
+struct Node{
+    struct Node *prev;
+    int data;
+    struct Node* next;
+};
+struct Node *head = NULL;
+struct Node *createNode(int data){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = newNode->prev = NULL;
+    return newNode;
+}
+void addBeg(int data){
+    struct Node* current = createNode(data);
+    if(head == NULL){
+        head = current;
+        return;
+    }
+    current->next = head;
+    head->prev = current;
+    head = current;
+}
+void addEnd(int data){
+    struct Node* current = createNode(data);
+    if(head == NULL){
+        head = current;
+        return;
+    }
+    struct Node* temp = head;
+    while(temp->next!=NULL){
+        temp = temp->next;
+    }
+    temp->next = current;
+    current->prev = temp;
+}
+void delBeg(){
+    if(head == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    struct Node* temp = head;
+    head = head->next;
+    head->prev = NULL;
+    free(temp);
+}
+void delEnd(){
+    if(head == NULL){
+        printf("List is empty\n");
+        return;
+    }
+    if(head->next == NULL){
+        free(head);
+        head = NULL;
+        return;
+    }
+    struct Node* temp = head;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    temp->prev->next = NULL;
+    free(temp);
+}
+int count(){
+    if(head == NULL)return 0;
+    int count = 0;
+    struct Node* temp = head;
+    while(temp!=NULL){
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+void addPos(int item,int x){
+	struct Node *curr = createNode(item);
+	struct Node* temp=head,*prev;
+	if(x<1 || x>count()+1){
+		printf("Position not found");
+		return;
+	}
+	int i=1;
+	while(temp!=NULL && i<x){
+		prev=temp;
+		temp=temp->next;
+		i++;
+	}
+	if(temp==head){
+		curr->next=temp;
+		temp->prev=curr; 
+		head=curr;
+		return;
+	}
+    prev->next = curr;
+    curr->prev=prev;
+    curr->next = temp;
+    temp->prev=curr;
+    return;
+}
+void delPosition(int x){
+	struct Node* temp=head,*prev,*next;
+	if(x<1||x>count()){
+		printf("Position not found");
+		return;
+	}
+	int i=1;
+	while(temp->next!=NULL && i<x){
+		prev=temp;  //4
+		next=temp->next;
+		temp=temp->next;
+		i++;
+	}
+	if(temp==head){ //only for first element del
+		head=head->next; //2
+		free(temp);//1
+		printf("\nItem deleted successfully");
+		return;
+	}
+	else if(temp->next==NULL){ // last element del
+		prev->next=NULL;
+		free(temp);
+		printf("\nItem deleted successfully");
+		return;
+	}
+	else{
+		prev->next=temp->next; //4-->6
+		next->prev=prev;
+		free(temp); //5
+		printf("\nItem deleted successfully");
+		return;
+	}
+}
+int search(int data){
+    struct Node* temp = head;
+    while(temp!=NULL){
+        if(temp->data == data){
+            return 1;
+        }
+        temp = temp->next;
+    }
+    return 0;
+}
+void display(){
+    struct Node *temp = head;
+    printf("List : ");
+    while(temp!=NULL){
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+int main(){
+    int item,pos,choice;
+    while(1){
+        printf("\n\n1.Add at beginning \n2.Add at end \n3.Display \n4.Delete beg \n5.Delete end\n6.Search\n7.Insert by position\n8.Delete by position\nEnter your choice : \n");
+        scanf("%d", &choice);
+        switch(choice){
+            case 0:
+                exit(0);
+            case 1:
+                printf("Enter an item to add at beginning : ");
+                scanf("%d", &item);
+                addBeg(item);
+                break;
+            case 2:
+                printf("Enter an item to add at end : ");
+                scanf("%d", &item);
+                addEnd(item);
+                break;
+            case 3:
+                display();
+                break;
+            case 4:
+                delBeg();
+                break;
+            case 5:
+                delEnd();
+                break;
+            case 6:
+                printf("Enter an item to search : ");
+                scanf("%d", &item);
+                if(search(item)){
+                    printf("%d found in the list\n", item);
+                }
+                else{
+                    printf("%d not found in the list\n", item);
+                }
+                break;
+            case 7:
+               	printf("Enter the item to add : ");
+                scanf("%d",&item);
+                printf("Enter its position : ");
+                scanf("%d",&pos);
+                addPos(item,pos);
+                break;
+            case 8:
+            	printf("Enter the position where you want to delete : ");
+            	scanf("%d",&item);
+            	delPosition(item);
+            	break;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+//Circular Linked List
+//Circular Linked List
+#include<stdio.h>
+#include<stdlib.h>
+#include<limits.h>
+struct Node{
+    int data;
+    struct Node* next;
+};
+struct Node* last = NULL;
+struct Node* createNode(int data){
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if(newNode == NULL){
+        printf("Memory Error\n");
+        exit(0);
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+void addBeg(int data){
+    struct Node *curr = createNode(data);
+    if(last == NULL){
+        last = curr;
+        curr->next = last;
+        return;
+    }
+    curr->next = last->next;
+    last->next = curr;
+    return;
+}
+void addEnd(int data){
+    struct Node *curr = createNode(data);
+    if(last == NULL){
+        last = curr;
+        curr->next = last;
+        return;
+    }
+    curr->next = last->next;
+    last->next = curr;
+    last = curr;
+    return;
+}
+void display(){
+    struct Node *temp = last->next;
+    if(last == NULL)return;
+    while(temp!=last){
+        printf("%d ",temp->data);
+        temp = temp->next;
+    }
+    printf("%d ",last->data);
+    printf("\n");
+}
+void delBeg(){
+    if(last == NULL)return;
+    struct Node *temp = last->next;
+    if(temp == last)last = NULL;
+    else last->next = temp->next;
+    free(temp);
+}
+void delEnd(){
+	if(last==NULL){
+		printf("Empty CLL");
+		return;
+	}
+	struct Node* temp=last->next;
+	if(temp==last){
+		last=NULL;
+		free(temp);
+		return;
+	}
+	while(temp->next!=last){
+		temp=temp->next;
+	}
+	temp->next=last->next;
+	free(last);
+	last=temp;
+	return;
+}
+int main(){
+    int item,choice,pos;
+    while(1){
+        printf("1. Add at beginning\n2. Add at end\n3. Delete at beginning\n4. Delete at end\n5. Display\n0. Exit\nEnter your choice: ");
+        scanf("%d",&choice);
+        switch(choice){
+            case 0:
+                exit(0);
+            case 1:
+                printf("Enter the item to add at beginning: ");
+                scanf("%d",&item);
+                addBeg(item);
+                break;
+            case 2:
+                printf("Enter the item to add at end: ");
+                scanf("%d",&item);
+                addEnd(item);
+                break;
+            case 3:
+                delBeg();
+                break;
+            case 4:
+                delEnd();
+                break;
+            case 5:
+                display();
+                break;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
+
+
+-----------------------------------------------------------------
