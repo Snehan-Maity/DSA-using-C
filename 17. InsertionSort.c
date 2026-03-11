@@ -15,7 +15,7 @@ int main()
 	{
 		printf("%d\t",arr[i]);
 	}
-	for(i=0;i<n-1;i++)
+	for(i=1;i<n-1;i++)
 	{
 		small=i;
 		for(j=i+1;j<n;j++)
