@@ -1,85 +1,54 @@
-//BFS
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
-#define MAX 20
-int front = -1;
-int rear = -1;
-int Q[MAX];
-int visited[MAX];
-int n;
-int weight[MAX][MAX]; 
-int isFull() {
-    return (rear + 1 == MAX);
+//Heap Sort
+#include<stdio.h>
+#include<stdlib.h>
+void swap(int *a,int *b){
+    int temp=*a;
+    *a=*b;
+    *b=temp;
 }
-int isEmpty() {
-    return (front == rear);
-}
-void enQueue(int item) {
-    if (isFull()) {
-        printf("Queue is Full\n");
-        return;
+void heapAdjust(int arr[], int i, int n){
+    int j=2*i;
+    int key=arr[i];
+    while(j<=n){
+        if(j<n && arr[j]<arr[j+1]){
+            j+=1;
+    	}
+        if(key>=arr[j]){
+            break;
+    	}
+        arr[j/2]=arr[j];
+        j=2*j;
     }
-    Q[++rear] = item;
+    arr[j/2]=key;
 }
-int deQueue() {
-    if (isEmpty()) {
-        printf("Queue is Empty\n");
-        return INT_MAX;
-    }
-    return Q[++front];
-}
-void BFS(int v) {
-    enQueue(v);
-    visited[v]=1;
-    while (!isEmpty()) {
-        int u=deQueue();
-        printf("%c ",u+'A');
-		int w;
-        for (w=0;w<n;w++) {
-            if (weight[u][w] == 1 && visited[w] == 0) {
-                visited[w] = 1;
-                enQueue(w);
-            }
-        }
+void makeHeap(int arr[], int n){
+	int i;
+    for(i=n/2;i>0;i--){
+        heapAdjust(arr,i,n);
     }
 }
-void readGraph() {
-    FILE *fp = fopen("BFS_Graph.txt", "r");
-    if (fp == NULL) {
-        printf("\nFile open failed!!\n");
-        exit(1);
+void heapSort(int arr[], int n){
+    makeHeap(arr,n);
+    int i;
+    for(i=n;i>1;i--){
+        swap(&arr[i],&arr[1]);
+        heapAdjust(arr,1,i-1);
     }
-    fscanf(fp,"%d",&n);  // Read number of vertices
-	int i,j;
-    for (i=0;i<n;i++) {
-        visited[i]=0;
-        for(j=0;j<n;j++) {
-            fscanf(fp,"%d",&weight[i][j]);
-        }
-    }
-    fclose(fp);
 }
-void displayGraph() {
-	int i,j;
-    printf("\nAdjacency Matrix:\n");
-    for(i=0;i<n;i++) {
-        for(j=0;j<n;j++) {
-            printf("%2d ", weight[i][j]);
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
-
-int main() {
-    readGraph();
-    displayGraph();
-    int start;
-    printf("Enter starting node index (0 to %d): ", n - 1);
-    scanf("%d", &start);
-    printf("BFS Traversal: ");
-    BFS(start);
+int main(){
+    int n,i;
+    printf("Enter the number of elements : ");
+    scanf("%d",&n);
+    int *arr=(int *)malloc((n+1)*sizeof(int));
+    printf("Enter the elements : ");
+    for(i=1;i<=n;i++){
+		scanf("%d",&arr[i]);
+	}	
+    heapSort(arr, n);
+    printf("The Sorted Array is : ");
+    for(i=1;i<=n;i++){
+		printf("%d ",arr[i]);
+	}
+	free(arr);
     return 0;
 }
-
