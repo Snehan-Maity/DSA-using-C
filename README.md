@@ -28,3 +28,6 @@
 26. Threaded_BST.c
 27. BFS(BreadthFirstSearch).c
 28. DFS(DepthFirstSearch).c
+29. SparseMatrix.c
+30. CountingSort.c (Only non-negative integers)
+31. RadixSort.c (Only non-negative integers)
